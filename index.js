@@ -19,7 +19,7 @@ function SshAccessory(log, config) {
   this.offCommand = config['off'];
   this.stateCommand = config['state'];
   this.offValue = config['off_value'] || "paused";
-  this.offValue = this.onValue.trim().toLowerCase();
+  this.offValue = this.offValue.trim().toLowerCase();
   this.exactMatch = config['exact_match'] || true;
   this.ssh = assign({
     user: config['user'],
