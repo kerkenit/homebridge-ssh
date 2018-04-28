@@ -18,8 +18,8 @@ function SshAccessory(log, config) {
   this.onCommand = config['on'];
   this.offCommand = config['off'];
   this.stateCommand = config['state'];
-  this.onValue = config['on_value'] || "playing";
-  this.onValue = this.onValue.trim().toLowerCase();
+  this.offValue = config['off_value'] || "paused";
+  this.offValue = this.onValue.trim().toLowerCase();
   this.exactMatch = config['exact_match'] || true;
   this.ssh = assign({
     user: config['user'],
@@ -31,10 +31,10 @@ function SshAccessory(log, config) {
 
 SshAccessory.prototype.matchesString = function(match) {
   if(this.exactMatch) {
-    return (match === this.onValue);
+    return (match !== this.offValue);
   }
   else {
-    return (match.indexOf(this.onValue) > -1);
+    return (match.indexOf(this.offValue) === -1);
   }
 }
 
