@@ -47,8 +47,12 @@ SshAccessory.prototype.setState = function(powerOn, callback) {
   var stream = ssh(command, accessory.ssh);
 
   stream.on('error', function (err) {
-    accessory.log('Error: ' + err);
-    callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
+    if(String(err).indexOf('EHOSTUNREACH') > -1) {
+	    callback(null);
+    } else {
+		accessory.log('Error: ' + err);
+		callback(err || new Error('Error setting ' + accessory.name + ' to ' + state));
+    }
   });
 
   stream.on('finish', function () {
@@ -64,8 +68,12 @@ SshAccessory.prototype.getState = function(callback) {
   var stream = ssh(command, accessory.ssh);
 
   stream.on('error', function (err) {
-    accessory.log('Error: ' + err);
-    callback(err || new Error('Error getting state of ' + accessory.name));
+    if(String(err).indexOf('EHOSTUNREACH') > -1) {
+	    callback(null, false);
+    } else {
+		accessory.log('Error: ' + err);
+		callback(err || new Error('Error getting state of ' + accessory.name));
+    }
   });
 
   stream.on('data', function (data) {
