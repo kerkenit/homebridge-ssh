@@ -47,7 +47,7 @@ SshAccessory.prototype.setState = function(powerOn, callback) {
   var stream = ssh(command, accessory.ssh);
 
   stream.on('error', function (err) {
-    if(String(err).indexOf('EHOSTUNREACH') > -1) {
+    if(String(err).indexOf('EHOSTUNREACH') > -1 || String(err).indexOf('Timed out while waiting for handshake') > -1) {
 	    callback(null);
     } else {
 		accessory.log('Error: ' + err);
@@ -68,7 +68,7 @@ SshAccessory.prototype.getState = function(callback) {
   var stream = ssh(command, accessory.ssh);
 
   stream.on('error', function (err) {
-    if(String(err).indexOf('EHOSTUNREACH') > -1) {
+    if(String(err).indexOf('EHOSTUNREACH') > -1 || String(err).indexOf('Timed out while waiting for handshake') > -1) {
 	    callback(null, false);
     } else {
 		accessory.log('Error: ' + err);
